@@ -670,6 +670,46 @@
       text-transform: uppercase;
     }
 
+    .recording-showcase {
+      display: grid;
+      grid-template-columns: minmax(0, .72fr) minmax(460px, 1.28fr);
+      gap: 22px;
+      align-items: center;
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 14px 45px rgba(20, 26, 33, .06);
+      padding: 22px;
+      overflow: hidden;
+    }
+
+    .recording-copy h3 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -0.02em;
+    }
+
+    .recording-copy p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .recording-shot {
+      margin: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface-2);
+      overflow: hidden;
+    }
+
+    .recording-shot img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
     .annotation-explorer {
       margin-top: 18px;
       border: 1px solid var(--border);
@@ -1082,6 +1122,7 @@
       .media-grid,
       .tool-explorer,
       .tool-stage,
+      .recording-showcase,
       .trust {
         grid-template-columns: 1fr;
       }
@@ -1240,6 +1281,16 @@
           </div>
         </div>
       </div>
+      <section class="recording-showcase" aria-label="Pinaura recording preview">
+        <div class="recording-copy">
+          <span class="tool-pill" data-i18n="recordingKicker">Record</span>
+          <h3 data-i18n="recordingTitle">Record the moment with context.</h3>
+          <p data-i18n="recordingCopy">Capture a region while showing the recording HUD, cursor focus, optional camera bubble, and the annotation tools below the work.</p>
+        </div>
+        <figure class="recording-shot">
+          <img src="Screenshots_demo/recording-controls-composite.png" alt="Pinaura recording controls and annotation toolbar over a code demo">
+        </figure>
+      </section>
       <div class="annotation-explorer" aria-label="Annotation toolbar explorer">
         <div class="annotation-heading">
           <span class="tool-pill" data-i18n="annotationKicker">Annotate</span>
@@ -1381,7 +1432,7 @@
         privacyTitle: "Local-only privacy.", privacyCopy1: "Screenshots, recordings, OCR text, thumbnails, and metadata stay on your computer so the library can search and display captures.",
         privacyCopy2: "Content leaves your computer only when you choose to copy, export, open, or share it with another app or service.",
         privacyLink: "Privacy policy", supportLink: "Support",
-        customTitle: "Customize the capture workflow.", customCopy: "Tune shortcuts, capture behavior, toolbar preferences, language, appearance, and storage so Pinaura fits the way you work.", annotationKicker: "Annotate", annotationExplorerTitle: "Explore the tools that sit right below your pinned screenshot:",
+        customTitle: "Customize the capture workflow.", customCopy: "Tune shortcuts, capture behavior, toolbar preferences, language, appearance, and storage so Pinaura fits the way you work.", recordingKicker: "Record", recordingTitle: "Record the moment with context.", recordingCopy: "Capture a region while showing the recording HUD, cursor focus, optional camera bubble, and the annotation tools below the work.", annotationKicker: "Annotate", annotationExplorerTitle: "Explore the tools that sit right below your pinned screenshot:",
         annotationStyleTitle: "Adjust color and size quickly.", annotationStyleCopy: "Change annotation color, stroke size, text size, and tool style directly from the toolbar while you work.",
         finalTitle: "Stop losing the screenshot that explains the work.",
         finalCopy: "Choose the path that fits you. Either way, buy once and keep it forever.",
@@ -1415,7 +1466,7 @@
         privacyTitle: "Confidentialit? locale.", privacyCopy1: "Les captures, enregistrements, texte OCR, miniatures et m?tadonn?es restent sur votre ordinateur pour que la biblioth?que puisse les afficher et les rechercher.",
         privacyCopy2: "Le contenu quitte votre ordinateur seulement lorsque vous choisissez de le copier, l'exporter, l'ouvrir ou le partager avec une autre application ou un autre service.",
         privacyLink: "Politique de confidentialit?", supportLink: "Support",
-        customTitle: "Personnalisez le flux de capture.", customCopy: "Ajustez raccourcis, comportement de capture, barre d'outils, langue, apparence et stockage pour adapter Pinaura ? votre fa?on de travailler.", annotationKicker: "Annoter", annotationExplorerTitle: "Explorez les outils plac?s juste sous votre capture ?pingl?e :",
+        customTitle: "Personnalisez le flux de capture.", customCopy: "Ajustez raccourcis, comportement de capture, barre d'outils, langue, apparence et stockage pour adapter Pinaura ? votre fa?on de travailler.", recordingKicker: "Enregistrer", recordingTitle: "Enregistrez le moment avec le contexte.", recordingCopy: "Capturez une r?gion avec l'indicateur d'enregistrement, le curseur mis en ?vidence, la bulle cam?ra optionnelle et les outils d'annotation sous le travail.", annotationKicker: "Annoter", annotationExplorerTitle: "Explorez les outils plac?s juste sous votre capture ?pingl?e :",
         annotationStyleTitle: "Ajustez vite la couleur et la taille.", annotationStyleCopy: "Changez la couleur, l'?paisseur du trait, la taille du texte et le style des outils directement depuis la barre pendant que vous travaillez.",
         finalTitle: "Ne perdez plus la capture qui explique le travail.",
         finalCopy: "Choisissez le chemin qui vous convient. Dans tous les cas, achetez une fois et gardez-le pour toujours.",
