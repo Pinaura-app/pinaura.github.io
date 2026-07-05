@@ -1,0 +1,1580 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pinaura - The most practical capture tool.</title>
+  <meta name="description" content="Pinaura is a local-only Windows app for capturing, annotating, pinning visual context, and recording quick explanations for teammates.">
+  <link rel="canonical" href="https://pinaura.app/">
+  <meta property="og:url" content="https://pinaura.app/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <meta name="robots" content="index,follow">
+  <meta name="pinaura-site-files" content="robots.txt sitemap.xml">
+  <meta property="og:title" content="Pinaura">
+  <meta property="og:description" content="Pin important screenshots, keep context visible, and find visual notes later.">
+  <meta property="og:image" content="assets/pinaura-social-512.png">
+  <link rel="icon" sizes="16x16" href="assets/pinaura-favicon-16x16.png">
+  <link rel="icon" sizes="32x32" href="assets/pinaura-favicon-32x32.png">
+  <link rel="icon" sizes="48x48" href="assets/pinaura-favicon-48x48.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #101418;
+      --surface: #171D23;
+      --surface-2: #202832;
+      --ink: #EEF4FA;
+      --muted: #A6B2C0;
+      --border: #303B47;
+      --border-2: #455363;
+      --primary: #4C8DFF;
+      --primary-2: #75A8FF;
+      --primary-soft: #172B4A;
+      --dark: #101418;
+      --dark-surface: #171D23;
+      --dark-elevated: #202832;
+      --dark-border: #303B47;
+      --dark-muted: #A6B2C0;
+      --dark-text: #EEF4FA;
+      --font: "Segoe UI Variable", "Segoe UI", Aptos, Arial, sans-serif;
+      --mono: "Cascadia Code", "Cascadia Mono", Consolas, monospace;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .34);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 68% 10%, rgba(76, 141, 255, .16), transparent 28rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      letter-spacing: 0;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .wrap {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 76px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 760;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .lang {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+    }
+
+    .lang button {
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: 750 12px/1 var(--font);
+      padding: 7px 9px;
+    }
+
+    .lang button.active {
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, .86fr) minmax(480px, 1.14fr);
+      gap: 48px;
+      align-items: center;
+      padding: 54px 0 84px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--primary);
+      padding: 0 11px;
+      font: 760 12px/1 var(--mono);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    h1 {
+      max-width: 650px;
+      margin: 22px 0 0;
+      font-size: clamp(44px, 5.5vw, 78px);
+      line-height: .96;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.55;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+      padding: 0 16px;
+      font-weight: 760;
+    }
+
+    .button:hover { border-color: var(--border-2); background: var(--surface-2); }
+
+    .store-badge {
+      gap: 10px;
+      background: #05070A;
+      border-color: #05070A;
+      color: #FFFFFF;
+      padding: 0 17px;
+      box-shadow: 0 14px 32px rgba(20, 26, 33, .20);
+    }
+
+    .store-badge:hover {
+      background: #18202A;
+      border-color: #18202A;
+    }
+
+    .store-icon {
+      width: 18px;
+      height: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+    }
+
+    .store-icon i:nth-child(1) { background: #F25022; }
+    .store-icon i:nth-child(2) { background: #7FBA00; }
+    .store-icon i:nth-child(3) { background: #00A4EF; }
+    .store-icon i:nth-child(4) { background: #FFB900; }
+
+
+    .hero-card {
+      border: 1px solid var(--dark-border);
+      border-radius: 22px;
+      background: var(--dark);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-lockup {
+      padding: 0;
+      border-bottom: 1px solid var(--dark-border);
+    }
+
+    .hero-lockup img {
+      width: 100%;
+    }
+
+    .mock-app {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 14px;
+      padding: 16px;
+    }
+
+    .mock-sidebar,
+    .mock-main,
+    .mock-inspector {
+      border: 1px solid var(--dark-border);
+      border-radius: 14px;
+      background: var(--dark-surface);
+    }
+
+    .mock-sidebar {
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .mock-sidebar span {
+      padding: 9px 10px;
+      border-radius: 9px;
+      color: var(--dark-muted);
+      font-size: 13px;
+    }
+
+    .mock-sidebar .active {
+      background: #172B4A;
+      color: #DDEBFF;
+    }
+
+    .mock-main {
+      min-height: 320px;
+      padding: 14px;
+    }
+
+    .mock-toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .mock-toolbar span {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--dark-border);
+      border-radius: 8px;
+      background: var(--dark-elevated);
+      color: #C9D3DF;
+      padding: 0 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .mock-toolbar .active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .pinned-shot {
+      min-height: 220px;
+      border: 1px solid #455363;
+      border-radius: 12px;
+      background:
+        linear-gradient(90deg, rgba(76, 141, 255, .10), transparent 58%),
+        linear-gradient(180deg, #EEF4FA 0 54px, #FFFFFF 54px 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pinned-shot:before {
+      content: "";
+      position: absolute;
+      left: 28px;
+      top: 78px;
+      width: 62%;
+      height: 12px;
+      border-radius: 999px;
+      background: #CAD6E4;
+      box-shadow: 0 30px 0 #D8E1EC, 0 60px 0 #E4EAF2;
+    }
+
+    .pin-badge {
+      position: absolute;
+      right: 22px;
+      top: 22px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      background: #101418;
+      color: #EEF4FA;
+      padding: 8px 11px;
+      font-size: 12px;
+      font-weight: 760;
+      box-shadow: 0 10px 30px rgba(16, 20, 24, .22);
+    }
+
+    .pin-badge img {
+      width: 18px;
+      height: 18px;
+    }
+
+    .callout {
+      position: absolute;
+      right: 36px;
+      bottom: 34px;
+      width: 132px;
+      height: 76px;
+      border: 2px solid var(--primary-2);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .88);
+    }
+
+    .feature-band {
+      background: var(--surface);
+      border-block: 1px solid var(--border);
+    }
+
+    .section {
+      padding: 78px 0;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 30px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(32px, 4vw, 50px);
+      line-height: 1.05;
+      letter-spacing: -0.025em;
+    }
+
+    .section-head p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .feature {
+      min-height: 230px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+      padding: 24px;
+      box-shadow: 0 14px 45px rgba(20, 26, 33, .05);
+    }
+
+    .feature.dark {
+      background: var(--dark);
+      color: var(--dark-text);
+      border-color: var(--dark-border);
+    }
+
+    .feature-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .feature.dark .feature-icon {
+      background: #172B4A;
+      color: #75A8FF;
+    }
+
+    .feature h3 {
+      margin: 0;
+      font-size: 21px;
+      letter-spacing: -0.01em;
+    }
+
+    .feature p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .feature.dark p { color: var(--dark-muted); }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .video-card,
+    .shot-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 14px 45px rgba(20, 26, 33, .06);
+      overflow: hidden;
+    }
+
+    .video-frame {
+      min-height: 340px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--dark), #1A2430);
+      color: white;
+    }
+
+    .play {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 18px 44px rgba(76, 141, 255, .28);
+    }
+
+    .play:before {
+      content: "";
+      margin-left: 5px;
+      border-left: 18px solid white;
+      border-block: 12px solid transparent;
+    }
+
+    .recorder-mock {
+      width: min(86%, 520px);
+      aspect-ratio: 16 / 9;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      position: relative;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 24px 60px rgba(0,0,0,.28);
+      overflow: hidden;
+    }
+
+    .recorder-region {
+      position: absolute;
+      inset: 42px 38px 58px;
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      background: rgba(255,255,255,.06);
+    }
+
+    .recorder-hud {
+      position: absolute;
+      left: 26px;
+      top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(5, 10, 18, .72);
+      border: 1px solid rgba(255,255,255,.16);
+      font-size: 12px;
+      color: rgba(255,255,255,.88);
+    }
+
+    .recorder-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #EF4444;
+      box-shadow: 0 0 0 4px rgba(239,68,68,.18);
+    }
+
+    .recorder-webcam {
+      position: absolute;
+      right: 54px;
+      bottom: 72px;
+      width: 92px;
+      height: 68px;
+      border-radius: 16px;
+      border: 2px solid rgba(255,255,255,.72);
+      background: radial-gradient(circle at 38% 35%, #5B7CFA 0 18%, #101827 19% 100%);
+      box-shadow: 0 14px 30px rgba(0,0,0,.34);
+    }
+
+    .recorder-tools {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      padding: 8px;
+      border-radius: 14px;
+      background: rgba(5, 10, 18, .78);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+
+    .recorder-tools span {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.14);
+      display: block;
+    }
+
+    .media-copy {
+      padding: 22px;
+    }
+
+    .media-copy h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .media-copy p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+
+
+    .tool-explorer {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 18px;
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 14px 45px rgba(20, 26, 33, .06);
+      overflow: hidden;
+    }
+
+    .tool-list {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      padding: 18px;
+      border-right: 1px solid var(--border);
+      background: color-mix(in srgb, var(--surface) 90%, var(--surface-2));
+    }
+
+    .tool-list button {
+      display: grid;
+      gap: 4px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--muted);
+      padding: 12px 14px;
+      text-align: left;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .tool-list button strong {
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .tool-list button span {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .tool-list button:hover,
+    .tool-list button.active {
+      background: var(--surface);
+      border-color: var(--border);
+    }
+
+    .tool-list button.active {
+      box-shadow: inset 3px 0 0 var(--primary);
+    }
+
+    .tool-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 260px;
+      gap: 20px;
+      align-items: center;
+      padding: 22px;
+    }
+
+    .tool-shot {
+      min-height: 330px;
+      margin: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface-2);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    .tool-shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: var(--surface);
+    }
+
+    .tool-detail h3 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -0.02em;
+    }
+
+    .tool-detail p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .tool-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      margin-bottom: 14px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 0 10px;
+      font: 800 12px/1 var(--mono);
+      text-transform: uppercase;
+    }
+
+    .annotation-explorer {
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 14px 45px rgba(20, 26, 33, .06);
+      padding: 22px;
+    }
+
+    .annotation-heading {
+      margin-bottom: 16px;
+    }
+
+    .annotation-heading h3 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: -0.02em;
+    }
+
+    .annotation-bar-shot {
+      display: grid;
+      place-items: center;
+      min-height: 112px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface-2);
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .annotation-bar-shot img {
+      max-height: 76px;
+      object-fit: contain;
+    }
+
+    .annotation-bar-target {
+      position: relative;
+      width: min(100%, 760px);
+    }
+
+    .annotation-bar-target img {
+      width: 100%;
+      max-height: none;
+      object-fit: contain;
+    }
+
+    .annotation-hotspot {
+      position: absolute;
+      left: calc(var(--x) * 1%);
+      top: 0;
+      width: calc(var(--w) * 1%);
+      height: 100%;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      background: transparent;
+      color: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .annotation-hotspot:hover,
+    .annotation-hotspot.active {
+      border-color: transparent;
+      background: transparent;
+    }
+
+    .annotation-hotspot span {
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 3px);
+      transform: translateX(-50%);
+      min-width: max-content;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      padding: 5px 8px;
+      font: 760 11px/1 var(--font);
+      opacity: 0;
+      pointer-events: none;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .18);
+    }
+
+    .annotation-hotspot:hover span,
+    .annotation-hotspot.active span {
+      opacity: 1;
+      color: var(--primary);
+    }
+    .annotation-detail {
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+
+    .annotation-detail h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .annotation-detail p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .annotation-style-options {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(260px, 1.1fr);
+      gap: 18px;
+      align-items: center;
+      margin-top: 14px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .03);
+    }
+
+    .annotation-style-options h3 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .annotation-style-options p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .annotation-style-options img {
+      width: 100%;
+      max-height: 86px;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+
+
+    .customization-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 14px 45px rgba(20, 26, 33, .06);
+    }
+
+    .customization-card {
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .customization-card.copy {
+      grid-column: 1 / -1;
+      max-width: 760px;
+      padding: 0 0 4px;
+    }
+
+    .customization-card h3 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .customization-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .customization-card:not(.copy) {
+      display: grid;
+      place-items: center;
+      min-height: 360px;
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+
+    .customization-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: contain;
+      object-position: top center;
+    }
+
+
+    .mini-shot {
+      height: 114px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background:
+        linear-gradient(90deg, rgba(37, 99, 235, .10), transparent),
+        linear-gradient(180deg, #FFFFFF 0 34px, #F1F5F9 34px 100%);
+      position: relative;
+    }
+
+    .mini-shot:after {
+      content: "";
+      position: absolute;
+      left: 20px;
+      top: 52px;
+      width: 60%;
+      height: 10px;
+      border-radius: 999px;
+      background: #CBD5E1;
+      box-shadow: 0 22px 0 #E2E8F0;
+    }
+
+    .trust {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .trust-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      padding: 30px;
+    }
+
+    .trust-card.dark {
+      background: var(--dark);
+      border-color: var(--dark-border);
+      color: var(--dark-text);
+    }
+
+    .trust-card h2 {
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: -0.02em;
+    }
+
+    .trust-card p,
+    .trust-card li {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 16px;
+    }
+
+    .trust-card.dark p,
+    .trust-card.dark li {
+      color: var(--dark-muted);
+    }
+
+    ul {
+      margin: 18px 0 0;
+      padding-left: 20px;
+    }
+
+    .final-cta {
+      padding: 84px 0;
+    }
+
+    .final-head {
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto 28px;
+    }
+
+    .final-head img {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 18px;
+    }
+
+    .final-head h2 {
+      margin: 0;
+      font-size: clamp(34px, 4vw, 54px);
+      line-height: 1.04;
+      letter-spacing: -0.025em;
+    }
+
+    .final-head p {
+      max-width: 640px;
+      margin: 16px auto 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 17px;
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .audience-card {
+      position: relative;
+      min-height: 310px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: var(--surface);
+      box-shadow: 0 14px 45px rgba(20, 26, 33, .06);
+      padding: 28px;
+      overflow: hidden;
+    }
+
+    .audience-card.dark {
+      background: var(--dark);
+      color: var(--dark-text);
+      border-color: var(--dark-border);
+    }
+
+    .audience-card::after {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 150px;
+      height: 150px;
+      border-radius: 32px;
+      background: var(--primary-soft);
+      transform: rotate(18deg);
+      opacity: .9;
+    }
+
+    .audience-card.dark::after {
+      background: #172B4A;
+    }
+
+    .audience-icon {
+      position: relative;
+      z-index: 1;
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 26px;
+      font-weight: 900;
+    }
+
+    .audience-card.dark .audience-icon {
+      background: #172B4A;
+      color: #75A8FF;
+    }
+
+    .audience-icon.person {
+      background: #EAF2FF;
+      color: #2563EB;
+    }
+
+    .audience-card.dark .audience-icon.person {
+      background: #EAF2FF;
+      color: #2563EB;
+    }
+
+    .audience-icon.business {
+      background: #EAF2FF;
+      color: #2563EB;
+    }
+
+    .audience-card.dark .audience-icon.business {
+      background: #EAF2FF;
+      color: #2563EB;
+    }
+
+    .audience-card h3 {
+      position: relative;
+      z-index: 1;
+      margin: 22px 0 0;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+    }
+
+    .audience-card p {
+      position: relative;
+      z-index: 1;
+      margin: 12px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .audience-card.dark p {
+      color: var(--dark-muted);
+    }
+
+    .audience-card .actions {
+      position: relative;
+      z-index: 1;
+      margin-top: 22px;
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+      padding: 26px 0 40px;
+    }
+
+    .footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .media-grid,
+      .tool-explorer,
+      .tool-stage,
+      .trust {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-list {
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .feature-grid,
+      .customization-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .mock-app {
+        grid-template-columns: 1fr;
+      }
+
+      .mock-sidebar {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .wrap { width: min(100% - 28px, 1180px); }
+      .nav-links { display: none; }
+      .hero { padding-top: 34px; }
+      .hero-card { border-radius: 16px; }
+      .hero-lockup { padding: 18px 18px 8px; }
+      .section { padding: 56px 0; }
+      .video-frame { min-height: 230px; }
+      .nav-right { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="wrap nav">
+    <a class="brand" href="#">
+      <img src="assets/pinaura-favicon-192x192.png" alt="">
+      <span>Pinaura</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#pin" data-i18n="navPin">Pin</a>
+        <a href="#media" data-i18n="navFeatures">Features</a>
+        <a href="#privacy" data-i18n="navPrivacy">Privacy</a>
+        <a href="#pricing" data-i18n="navPricing">Pricing</a>
+      </div>
+      <div class="lang" aria-label="Language">
+        <button type="button" class="active" data-lang="en">EN</button>
+        <button type="button" data-lang="fr">FR</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="wrap hero">
+      <div>
+        <span class="eyebrow" data-i18n="eyebrow">Local-only Windows capture workflow</span>
+        <h1 data-i18n="heroTitle">Pin important screenshots. Keep context visible.</h1>
+        <p class="hero-copy" data-i18n="heroCopy">Pinaura helps you capture, annotate, and pin visual context to your screen for quick reference, so you do not have to keep switching windows. Recording makes it quick to explain work and help teammates.</p>
+        <div class="actions">
+          <a class="button store-badge" href="https://apps.microsoft.com/detail/pinaura" aria-label="Get Pinaura from Microsoft Store">
+            <span class="store-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <span data-i18n="storeCta">Get it from Microsoft Store</span>
+          </a>
+          <a class="button" href="#media" data-i18n="watchDemo">Watch the workflow</a>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Pinaura product preview">
+        <div class="hero-lockup">
+          <img src="assets/pinaura-website-lockup-dark.png" alt="Pinaura">
+        </div>
+        <div class="mock-app">
+          <aside class="mock-sidebar">
+            <span data-i18n="sidePinned">Pinned</span>
+            <span data-i18n="sideRecent">Recent</span>
+            <span class="active" data-i18n="sideLibrary">Library</span>
+          </aside>
+          <div class="mock-main">
+            <div class="mock-toolbar">
+              <span class="active" data-i18n="toolPin">Pin</span>
+              <span data-i18n="toolAnnotate">Annotate</span>
+              <span data-i18n="toolOcr">OCR</span>
+              <span data-i18n="toolShare">Share</span>
+            </div>
+            <div class="pinned-shot">
+              <div class="pin-badge">
+                <img src="assets/pinaura-favicon-48x48.png" alt="">
+                <span data-i18n="pinBadge">Pinned context</span>
+              </div>
+              <div class="callout"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-band" id="pin">
+      <div class="wrap section">
+        <div class="section-head">
+          <h2 data-i18n="pinTitle">The screenshot stays where the work is.</h2>
+          <p data-i18n="pinCopy">Pinaura is built around pinned visual context: keep a capture visible while you write, compare, report, or explain. Then save it to a searchable library when the moment is done.</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature dark">
+            <div class="feature-icon" aria-hidden="true">&#x1F4CC;&#xFE0E;</div>
+            <h3 data-i18n="pinCard1Title">Pin while you work</h3>
+            <p data-i18n="pinCard1Copy">Keep an important screenshot floating above your apps instead of switching windows over and over.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">&#x270E;</div>
+            <h3 data-i18n="pinCard2Title">Annotate your reference</h3>
+            <p data-i18n="pinCard2Copy">Use arrows, callouts, boxes, highlights, pixelation, step numbers, and OCR selection to make the point clear.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon" aria-hidden="true">&#x1F4D6;&#xFE0E;</div>
+            <h3 data-i18n="pinCard3Title">Find it later</h3>
+            <p data-i18n="pinCard3Copy">Rename captures, add tags, index OCR text, and search the library when you need the visual evidence again.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section" id="media">
+      <div class="section-head">
+        <h2 data-i18n="mediaTitle">Designed to focus on what's important.</h2>
+        <p data-i18n="mediaCopy">The launch page highlights the core workflow: capture, pinning, video recording, annotation, OCR selection, and library search.</p>
+      </div>
+      <div class="tool-explorer" aria-label="Interactive Pinaura tool explorer">
+        <div class="tool-list" role="tablist" aria-label="Pinaura tools">
+          <button type="button" class="active" data-tool="capture" role="tab" aria-selected="true">
+            <strong>Capture</strong><span>Start from the compact launcher.</span>
+          </button>
+          <button type="button" data-tool="pin" role="tab" aria-selected="false">
+            <strong>Pin</strong><span>Keep a screenshot visible beside your work.</span>
+          </button>
+          <button type="button" data-tool="ocr" role="tab" aria-selected="false">
+            <strong>OCR</strong><span>Extract searchable text from local captures.</span>
+          </button>
+          <button type="button" data-tool="library" role="tab" aria-selected="false">
+            <strong>Library</strong><span>Find screenshots by title, tag, and OCR text.</span>
+          </button>
+          <button type="button" data-tool="restore" role="tab" aria-selected="false">
+            <strong>Restore</strong><span>Preview and reopen recent captures from the tray.</span>
+          </button>
+        </div>
+        <div class="tool-stage">
+          <figure class="tool-shot">
+            <img id="tool-image" src="Screenshots_demo/capture_launcher.png" alt="Pinaura capture launcher screenshot">
+          </figure>
+          <div class="tool-detail">
+            <span class="tool-pill" id="tool-kicker">Capture</span>
+            <h3 id="tool-title">Choose the capture you need.</h3>
+            <p id="tool-copy">Open Pinaura from the tray or shortcut and start a region, window, full screen, delayed, scrolling, or web page capture.</p>
+          </div>
+        </div>
+      </div>
+      <div class="annotation-explorer" aria-label="Annotation toolbar explorer">
+        <div class="annotation-heading">
+          <span class="tool-pill" data-i18n="annotationKicker">Annotate</span>
+          <h3 data-i18n="annotationExplorerTitle">Explore the tools that sit right below your pinned screenshot:</h3>
+        </div>
+        <div class="annotation-bar-shot">
+          <div class="annotation-bar-target">
+            <img id="annotation-image" src="Screenshots_demo/annotation_locked.png" alt="Pinaura annotation toolbar with lock selected">
+            <button type="button" class="annotation-hotspot active" style="--x: 6.2; --w: 4.6;" data-annotation="lock" role="tab" aria-selected="true"><span>Lock</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 11.3; --w: 4.6;" data-annotation="clear" role="tab" aria-selected="false"><span>Clear</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 16.3; --w: 4.6;" data-annotation="eraser" role="tab" aria-selected="false"><span>Eraser</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 22.1; --w: 4.6;" data-annotation="highlight" role="tab" aria-selected="false"><span>Highlight</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 27.3; --w: 4.6;" data-annotation="pen" role="tab" aria-selected="false"><span>Pen</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 32.4; --w: 4.6;" data-annotation="text" role="tab" aria-selected="false"><span>Text</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 37.4; --w: 4.6;" data-annotation="line" role="tab" aria-selected="false"><span>Line</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 42.6; --w: 4.6;" data-annotation="arrow" role="tab" aria-selected="false"><span>Arrow</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 48.0; --w: 4.6;" data-annotation="rectangle" role="tab" aria-selected="false"><span>Rectangle</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 53.1; --w: 4.6;" data-annotation="ellipse" role="tab" aria-selected="false"><span>Ellipse</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 58.2; --w: 4.6;" data-annotation="callout" role="tab" aria-selected="false"><span>Callout</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 62.8; --w: 4.6;" data-annotation="steps" role="tab" aria-selected="false"><span>Steps</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 69.0; --w: 4.6;" data-annotation="ocr" role="tab" aria-selected="false"><span>OCR</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 73.6; --w: 4.6;" data-annotation="eyedropper" role="tab" aria-selected="false"><span>Eyedropper</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 78.8; --w: 4.6;" data-annotation="pixellate" role="tab" aria-selected="false"><span>Pixellate</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 84.0; --w: 4.6;" data-annotation="crop" role="tab" aria-selected="false"><span>Crop</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 88.8; --w: 4.6;" data-annotation="stitch" role="tab" aria-selected="false"><span>Stitch</span></button>
+            <button type="button" class="annotation-hotspot" style="--x: 93.6; --w: 5.0;" data-annotation="retake" role="tab" aria-selected="false"><span>Retake</span></button>
+          </div>
+        </div>
+        <div class="annotation-detail">
+          <h3 id="annotation-title">Keep the toolbar steady.</h3>
+          <p id="annotation-copy">Lock the annotation toolbar when you want it to stay visible while you keep marking up the capture.</p>
+        </div>
+        <div class="annotation-style-options">
+          <div>
+            <h3 data-i18n="annotationStyleTitle">Adjust color and size quickly.</h3>
+            <p data-i18n="annotationStyleCopy">Change annotation color, stroke size, text size, and tool style directly from the toolbar while you work.</p>
+          </div>
+          <img src="Screenshots_demo/annotation_color-size.png" alt="Pinaura annotation color and size controls">
+        </div>
+      </div>
+      <div class="customization-grid" aria-label="Pinaura customization screenshots">
+        <article class="customization-card copy">
+          <h3 data-i18n="customTitle">Customize the capture workflow.</h3>
+          <p data-i18n="customCopy">Tune shortcuts, capture behavior, toolbar preferences, language, appearance, and storage so Pinaura fits the way you work.</p>
+        </article>
+        <article class="customization-card">
+          <img src="Screenshots_demo/settings_capture.png" alt="Pinaura capture settings screenshot">
+        </article>
+        <article class="customization-card">
+          <img src="Screenshots_demo/settings_appearance.png" alt="Pinaura appearance settings screenshot">
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap section trust" id="privacy">
+      <article class="trust-card dark">
+        <h2 data-i18n="trustTitle">Business-friendly by design.</h2>
+        <p data-i18n="trustCopy">Use Pinaura for support tickets, QA notes, client feedback, implementation guides, quick visual explanations, and reference-heavy work.</p>
+        <ul>
+          <li data-i18n="trust1">Keep screenshots visible while you act on them.</li>
+          <li data-i18n="trust2">Share annotated context without opening a heavy editor.</li>
+          <li data-i18n="trust3">Keep reference numbers, invoice IDs, error codes, and measurements visible while you work.</li>
+          <li data-i18n="trust4">Control retention so captures do not grow forever unless you want them to.</li>
+        </ul>
+      </article>
+      <article class="trust-card">
+        <h2 data-i18n="privacyTitle">Local-only privacy.</h2>
+        <p data-i18n="privacyCopy1">Screenshots, OCR text, thumbnails, and metadata stay on your computer so the library can search and display captures.</p>
+        <p data-i18n="privacyCopy2">Content leaves your computer only when you choose to copy, export, open, or share it with another app or service.</p>
+        <div class="actions">
+          <a class="button" href="https://pinaura.app/privacy" data-i18n="privacyLink">Privacy policy</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="wrap final-cta" id="pricing">
+      <div class="final-head">
+        <img src="assets/pinaura-favicon-192x192.png" alt="">
+        <h2 data-i18n="finalTitle">Stop losing the screenshot that explains the work.</h2>
+        <p data-i18n="finalCopy">Choose the path that fits you. Either way, buy once and keep it forever.</p>
+      </div>
+      <div class="audience-grid" aria-label="Choose how to get Pinaura">
+        <article class="audience-card dark">
+          <div class="audience-icon person" aria-hidden="true">&#x1F464;&#xFE0E;</div>
+          <h3 data-i18n="individualTitle">For individuals</h3>
+          <p data-i18n="individualCopy">Install Pinaura from Microsoft Store for a simple, Store-managed setup on your Windows PC.</p>
+          <div class="actions">
+            <a class="button store-badge" href="https://apps.microsoft.com/detail/pinaura">
+              <span class="store-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              <span data-i18n="storeCta">Get it from Microsoft Store</span>
+            </a>
+          </div>
+        </article>
+        <article class="audience-card">
+          <div class="audience-icon business" aria-hidden="true">&#x1F3E2;&#xFE0E;</div>
+          <h3 data-i18n="enterpriseTitle">For enterprise and teams</h3>
+          <p data-i18n="enterpriseCopy">Need deployment details, procurement help, privacy review, or team rollout support? Contact us and we will help you evaluate Pinaura.</p>
+          <div class="actions">
+            <a class="button" href="mailto:support@pinaura.app?subject=Pinaura%20enterprise%20inquiry" data-i18n="enterpriseCta">Contact us</a>
+            <a class="button" href="https://pinaura.app/support" data-i18n="supportLink">Support</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <span>&copy; 2026 Pinaura. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script>
+    const copy = {
+      en: {
+        navPin: "Pin", navFeatures: "Features", navPrivacy: "Privacy", navPricing: "Pricing",
+        eyebrow: "Local-only Windows capture workflow",
+        heroTitle: "Pin important screenshots. Keep context visible.",
+        heroCopy: "Pinaura helps you capture, annotate, and pin visual context to your screen for quick reference, so you do not have to keep switching windows. Recording makes it quick to explain work and help teammates.",
+        storeCta: "Get it from Microsoft Store", watchDemo: "Watch the workflow",
+        sidePinned: "Pinned", sideRecent: "Recent", sideLibrary: "Library",
+        toolPin: "Pin", toolAnnotate: "Annotate", toolOcr: "OCR", toolShare: "Share", pinBadge: "Pinned context",
+        pinTitle: "The screenshot stays where the work is.",
+        pinCopy: "Pinaura is built around pinned visual context: keep a capture visible while you write, compare, report, or explain. Then save it to a searchable library when the moment is done.",
+        pinCard1Title: "Pin while you work", pinCard1Copy: "Keep an important screenshot floating above your apps instead of switching windows over and over.",
+        pinCard2Title: "Annotate your reference", pinCard2Copy: "Use arrows, callouts, boxes, highlights, pixelation, step numbers, and OCR selection to make the point clear.",
+        pinCard3Title: "Find it later", pinCard3Copy: "Rename captures, add tags, index OCR text, and search the library when you need the visual evidence again.",
+        featuresTitle: "Fast capture, practical annotation, searchable history.",
+        featuresCopy: "Pinaura keeps the workflow small enough for everyday use, but complete enough for support, QA, client feedback, and internal documentation.",
+        captureTitle: "Capture modes", captureCopy: "Region, window, full screen, delayed, scrolling window, and full web page capture from a compact launcher.",
+        recordTitle: "Video recording", recordCopy: "Record the screen, a region, or a window with optional microphone, camera bubble, cursor emphasis, and annotation overlays when enabled.",
+        libraryTitle: "Library", libraryCopy: "Use titles, tags, favorites, OCR search, video previews, details, templates, and retention settings to keep captures useful.",
+        mediaTitle: "Designed to focus on what's important.",
+        mediaCopy: "Explore the core workflow: capture, pinning, video recording, annotation, OCR selection, library search, and settings you can tune to your work.",
+        videoTitle: "Capture and record the explanation", videoCopy: "Show the moment with screen, region, or window recording, optional microphone audio, camera bubble, cursor emphasis, and annotations in the final video.",
+        shotsTitle: "Screenshot gallery", shotsCopy: "Use the gallery to inspect the capture launcher, annotations, OCR, library search, and storage settings before installing.",
+        trustTitle: "Business-friendly by design.", trustCopy: "Use Pinaura for support tickets, QA notes, client feedback, implementation guides, quick visual explanations, and reference-heavy work.",
+        trust1: "Keep screenshots visible while you act on them.", trust2: "Share annotated context without opening a heavy editor.", trust3: "Keep reference numbers, invoice IDs, error codes, and measurements visible while you work.", trust4: "Control retention so captures do not grow forever unless you want them to.",
+        privacyTitle: "Local-only privacy.", privacyCopy1: "Screenshots, recordings, OCR text, thumbnails, and metadata stay on your computer so the library can search and display captures.",
+        privacyCopy2: "Content leaves your computer only when you choose to copy, export, open, or share it with another app or service.",
+        privacyLink: "Privacy policy", supportLink: "Support",
+        customTitle: "Customize the capture workflow.", customCopy: "Tune shortcuts, capture behavior, toolbar preferences, language, appearance, and storage so Pinaura fits the way you work.", annotationKicker: "Annotate", annotationExplorerTitle: "Explore the tools that sit right below your pinned screenshot:",
+        annotationStyleTitle: "Adjust color and size quickly.", annotationStyleCopy: "Change annotation color, stroke size, text size, and tool style directly from the toolbar while you work.",
+        finalTitle: "Stop losing the screenshot that explains the work.",
+        finalCopy: "Choose the path that fits you. Either way, buy once and keep it forever.",
+        individualTitle: "For individuals", individualCopy: "Install Pinaura from Microsoft Store for a simple, Store-managed setup on your Windows PC.",
+        enterpriseTitle: "For enterprise and teams", enterpriseCopy: "Need deployment details, procurement help, privacy review, or team rollout support? Contact us and we will help you evaluate Pinaura.", enterpriseCta: "Contact us",
+      },
+      fr: {
+        navPin: "?pingler", navFeatures: "Fonctions", navPrivacy: "Confidentialit?", navPricing: "Prix",
+        eyebrow: "Flux de capture local pour Windows",
+        heroTitle: "?pinglez les captures importantes. Gardez le contexte visible.",
+        heroCopy: "Pinaura vous aide ? capturer, annoter et ?pingler le contexte visuel ? l'?cran pour le garder sous les yeux, sans changer de fen?tre sans arr?t. L'enregistrement facilite les explications et l'aide aux co?quipiers.",
+        storeCta: "Obtenir dans le Microsoft Store", watchDemo: "Voir le flux de travail",
+        sidePinned: "?pingl?es", sideRecent: "R?centes", sideLibrary: "Biblioth?que",
+        toolPin: "?pingler", toolAnnotate: "Annoter", toolOcr: "OCR", toolShare: "Partager", pinBadge: "Contexte ?pingl?",
+        pinTitle: "La capture reste l? o? le travail se fait.",
+        pinCopy: "Pinaura est construit autour du contexte visuel ?pingl? : gardez une capture visible pendant que vous ?crivez, comparez, rapportez ou expliquez. Ensuite, sauvegardez-la dans une biblioth?que consultable.",
+        pinCard1Title: "?pingler pendant le travail", pinCard1Copy: "Gardez une capture importante au-dessus de vos applications au lieu de changer de fen?tre sans arr?t.",
+        pinCard2Title: "Annoter votre r?f?rence", pinCard2Copy: "Utilisez fl?ches, bulles, cadres, surlignage, pixellisation, ?tapes num?rot?es et s?lection OCR pour clarifier le message.",
+        pinCard3Title: "Retrouver plus tard", pinCard3Copy: "Renommez les captures, ajoutez des tags, indexez le texte OCR et cherchez dans la biblioth?que quand vous avez besoin de la preuve visuelle.",
+        featuresTitle: "Capture rapide, annotation pratique, historique consultable.",
+        featuresCopy: "Pinaura garde le flux assez simple pour un usage quotidien, mais assez complet pour le support, la QA, les retours clients et la documentation interne.",
+        captureTitle: "Modes de capture", captureCopy: "R?gion, fen?tre, plein ?cran, d?lai, fen?tre d?filante et page web compl?te depuis un lanceur compact.",
+        recordTitle: "Enregistrement vid?o", recordCopy: "Enregistrez l'?cran, une r?gion ou une fen?tre avec microphone optionnel, bulle cam?ra, mise en ?vidence du curseur et annotations si activ?es.",
+        libraryTitle: "Biblioth?que", libraryCopy: "Utilisez titres, tags, favoris, recherche OCR, aper?us vid?o, d?tails, mod?les et conservation pour garder les captures utiles.",
+        mediaTitle: "Con?u pour garder l'essentiel en vue.",
+        mediaCopy: "Explorez le flux principal : capture, ?pinglage, vid?o, annotation, s?lection OCR, recherche dans la biblioth?que et r?glages adapt?s ? votre travail.",
+        videoTitle: "Capturer et enregistrer l'explication", videoCopy: "Montrez le moment avec enregistrement d'?cran, r?gion ou fen?tre, audio micro optionnel, bulle cam?ra, curseur mis en ?vidence et annotations dans la vid?o finale.",
+        shotsTitle: "Galerie de captures", shotsCopy: "Utilisez la galerie pour inspecter le lanceur, les annotations, l'OCR, la recherche et les r?glages de stockage avant l'installation.",
+        trustTitle: "Con?u pour les ?quipes.", trustCopy: "Utilisez Pinaura pour les tickets de support, notes QA, retours clients, guides d'impl?mentation, explications visuelles rapides et travaux riches en r?f?rences.",
+        trust1: "Gardez les captures visibles pendant que vous agissez.", trust2: "Partagez un contexte annot? sans ouvrir un ?diteur lourd.", trust3: "Gardez les num?ros de r?f?rence, factures, codes d'erreur et mesures visibles pendant le travail.", trust4: "Contr?lez la conservation pour ?viter que les captures s'accumulent sans limite.",
+        privacyTitle: "Confidentialit? locale.", privacyCopy1: "Les captures, enregistrements, texte OCR, miniatures et m?tadonn?es restent sur votre ordinateur pour que la biblioth?que puisse les afficher et les rechercher.",
+        privacyCopy2: "Le contenu quitte votre ordinateur seulement lorsque vous choisissez de le copier, l'exporter, l'ouvrir ou le partager avec une autre application ou un autre service.",
+        privacyLink: "Politique de confidentialit?", supportLink: "Support",
+        customTitle: "Personnalisez le flux de capture.", customCopy: "Ajustez raccourcis, comportement de capture, barre d'outils, langue, apparence et stockage pour adapter Pinaura ? votre fa?on de travailler.", annotationKicker: "Annoter", annotationExplorerTitle: "Explorez les outils plac?s juste sous votre capture ?pingl?e :",
+        annotationStyleTitle: "Ajustez vite la couleur et la taille.", annotationStyleCopy: "Changez la couleur, l'?paisseur du trait, la taille du texte et le style des outils directement depuis la barre pendant que vous travaillez.",
+        finalTitle: "Ne perdez plus la capture qui explique le travail.",
+        finalCopy: "Choisissez le chemin qui vous convient. Dans tous les cas, achetez une fois et gardez-le pour toujours.",
+        individualTitle: "Pour les particuliers", individualCopy: "Installez Pinaura depuis Microsoft Store pour une installation simple et g?r?e par le Store sur votre PC Windows.",
+        enterpriseTitle: "Pour les entreprises et les ?quipes", enterpriseCopy: "Besoin d'informations de d?ploiement, d'aide pour l'achat, d'une revue de confidentialit? ou d'un accompagnement d'?quipe ? Contactez-nous pour ?valuer Pinaura.", enterpriseCta: "Nous contacter",
+      }
+    };
+
+    const toolDetails = {
+      en: {
+        capture: { name: "Capture", hint: "Start from the compact launcher.", title: "Choose the capture you need.", copy: "Open Pinaura from the tray or shortcut and start a region, window, full screen, delayed, scrolling, or web page capture.", image: "Screenshots_demo/capture_launcher.png", alt: "Pinaura capture launcher screenshot" },
+        pin: { name: "Pin", hint: "Keep a screenshot visible beside your work.", title: "Keep context on top.", copy: "Pinned screenshots stay visible while you compare details, write a ticket, document a bug, or explain what changed.", image: "Screenshots_demo/pin_window.png", alt: "Pinned Pinaura screenshot window" },
+        ocr: { name: "OCR", hint: "Extract searchable text from local captures.", title: "Turn screenshot text into useful text.", copy: "Extract text or tables from captures so you can copy it, and find it again in the library later.", image: "Screenshots_demo/OCR_table.png", alt: "Pinaura OCR table screenshot" },
+        library: { name: "Library", hint: "Find screenshots by title, tag, and OCR text.", title: "Find the capture again.", copy: "Search local screenshots and recordings by name, tags, favorites, OCR text, and metadata instead of digging through folders.", image: "Screenshots_demo/library.png", alt: "Pinaura library screenshot" },
+        restore: { name: "Restore", hint: "Preview and reopen recent captures from the tray.", title: "Restore recent screenshots quickly.", copy: "Use tray restore previews to identify the right recent capture before reopening it, without guessing from filenames.", image: "Screenshots_demo/restore_feature.jpg", alt: "Pinaura restore screenshot preview" }
+      },
+      fr: {
+        capture: { name: "Capture", hint: "D?marrez depuis le lanceur compact.", title: "Choisissez la capture dont vous avez besoin.", copy: "Ouvrez Pinaura depuis la zone de notification ou un raccourci, puis lancez une capture de r?gion, fen?tre, plein ?cran, d?lai, d?filement ou page web.", image: "Screenshots_demo/capture_launcher.png", alt: "Capture d'?cran du lanceur Pinaura" },
+        pin: { name: "?pingler", hint: "Gardez une capture visible ? c?t? du travail.", title: "Gardez le contexte au premier plan.", copy: "Les captures ?pingl?es restent visibles pendant que vous comparez, r?digez un ticket, documentez un bug ou expliquez un changement.", image: "Screenshots_demo/pin_window.png", alt: "Fen?tre de capture ?pingl?e dans Pinaura" },
+        ocr: { name: "OCR", hint: "Extrayez le texte consultable des captures locales.", title: "Transformez le texte d'une capture en texte utile.", copy: "Extrayez du texte ou des tableaux des captures pour les copier et les retrouver plus tard dans la biblioth?que.", image: "Screenshots_demo/OCR_table.png", alt: "Table OCR dans Pinaura" },
+        library: { name: "Biblioth?que", hint: "Retrouvez par titre, tag et texte OCR.", title: "Retrouvez la capture plus tard.", copy: "Recherchez captures et enregistrements locaux par nom, tags, favoris, texte OCR et m?tadonn?es au lieu de fouiller dans les dossiers.", image: "Screenshots_demo/library.png", alt: "Biblioth?que Pinaura" },
+        restore: { name: "Restaurer", hint: "Pr?visualisez et rouvrez les captures r?centes.", title: "Restaurez rapidement les captures r?centes.", copy: "Les aper?us de restauration dans la zone de notification aident ? identifier la bonne capture r?cente avant de la rouvrir.", image: "Screenshots_demo/restore_feature.jpg", alt: "Aper?u de restauration de capture Pinaura" }
+      }
+    };
+
+
+    const annotationDetails = {
+      en: {
+        arrow: { name: "Arrow", title: "Point to the exact detail.", copy: "Use arrows when you need a viewer to notice one field, button, error, or change immediately.", image: "Screenshots_demo/annotation_arrow.png", alt: "Pinaura annotation toolbar with arrow selected" },
+        line: { name: "Line", title: "Draw a clean visual path.", copy: "Use straight lines to connect related details, separate areas, or point across a capture.", image: "Screenshots_demo/annotation_line.png", alt: "Pinaura annotation toolbar with line selected" },
+        pen: { name: "Pen", title: "Draw a quick note.", copy: "Sketch freehand marks for rough emphasis, review notes, or fast visual direction.", image: "Screenshots_demo/annotation_pen.png", alt: "Pinaura annotation toolbar with pen selected" },
+        eraser: { name: "Eraser", title: "Remove one mark at a time.", copy: "Clean up individual strokes or annotations without clearing the whole capture.", image: "Screenshots_demo/annotation_eraser.png", alt: "Pinaura annotation toolbar with eraser selected" },
+        text: { name: "Text", title: "Add the missing context.", copy: "Place short labels directly on the capture so the screenshot explains itself later.", image: "Screenshots_demo/annotation_text.png", alt: "Pinaura annotation toolbar with text selected" },
+        steps: { name: "Steps", title: "Show the order of actions.", copy: "Add numbered markers for walkthroughs, onboarding, bug reproduction, or setup instructions.", image: "Screenshots_demo/annotation_steps.png", alt: "Pinaura annotation toolbar with steps selected" },
+        eyedropper: { name: "Eyedropper", title: "Match an existing color.", copy: "Pick a color from the capture so new annotations match the visual context.", image: "Screenshots_demo/annotation_eyedropper.png", alt: "Pinaura annotation toolbar with eyedropper selected" },
+        ocr: { name: "OCR", title: "Select text from the image.", copy: "Run OCR on captured content so text can be copied, searched, and reused.", image: "Screenshots_demo/annotation_OCR.png", alt: "Pinaura annotation toolbar with OCR selected" },
+        lock: { name: "Lock", title: "Keep the toolbar steady.", copy: "Lock the annotation toolbar when you want it to stay visible while you keep marking up the capture.", image: "Screenshots_demo/annotation_locked.png", alt: "Pinaura annotation toolbar with lock selected" },
+        clear: { name: "Clear", title: "Reset the markup quickly.", copy: "Clear annotations when you want to start over without recapturing the screen.", image: "Screenshots_demo/annotation_clear.png", alt: "Pinaura annotation toolbar with clear selected" },
+        highlight: { name: "Highlight", title: "Make text and rows stand out.", copy: "Highlight important lines, table rows, labels, or values without covering the original content.", image: "Screenshots_demo/annotation_highlight.png", alt: "Pinaura annotation toolbar with highlight selected" },
+        rectangle: { name: "Rectangle", title: "Frame the important area.", copy: "Draw boxes around buttons, fields, totals, errors, or regions that need attention.", image: "Screenshots_demo/annotation_rectangle.png", alt: "Pinaura annotation toolbar with rectangle selected" },
+        ellipse: { name: "Ellipse", title: "Circle the point.", copy: "Use round shapes for soft emphasis around names, values, icons, or small interface details.", image: "Screenshots_demo/annotation_ellipse.png", alt: "Pinaura annotation toolbar with ellipse selected" },
+        callout: { name: "Callout", title: "Connect a note to a target.", copy: "Use callouts for feedback, QA notes, support explanations, and review comments.", image: "Screenshots_demo/annotation_callout.png", alt: "Pinaura annotation toolbar with callout selected" },
+        pixellate: { name: "Pixellate", title: "Hide sensitive details.", copy: "Pixelate private values before saving or sharing the capture.", image: "Screenshots_demo/annotation_pixellate.png", alt: "Pinaura annotation toolbar with pixellate selected" },
+        crop: { name: "Crop", title: "Keep only what matters.", copy: "Trim away extra screen area so the final capture stays focused and easier to read.", image: "Screenshots_demo/annotation_crop.png", alt: "Pinaura annotation toolbar with crop selected" },
+        stitch: { name: "Stitch", title: "Extend the visual context.", copy: "Add connected capture space when a single screenshot does not show enough context.", image: "Screenshots_demo/annotation_stitch.png", alt: "Pinaura annotation toolbar with stitch selected" },
+        retake: { name: "Retake", title: "Expand the capture when needed.", copy: "Retake around the current screenshot when the first crop missed surrounding context.", image: "Screenshots_demo/annotation_retake.png", alt: "Pinaura annotation toolbar with retake selected" }
+      },
+      fr: {
+        arrow: { name: "Fl?che", title: "Pointez le d?tail exact.", copy: "Utilisez les fl?ches pour attirer l'attention sur un champ, bouton, erreur ou changement pr?cis.", image: "Screenshots_demo/annotation_arrow.png", alt: "Barre d'annotation Pinaura avec fl?che s?lectionn?e" },
+        line: { name: "Ligne", title: "Tracez un lien clair.", copy: "Utilisez des lignes droites pour relier des d?tails, s?parer des zones ou pointer ? travers une capture.", image: "Screenshots_demo/annotation_line.png", alt: "Barre d'annotation Pinaura avec ligne s?lectionn?e" },
+        pen: { name: "Crayon", title: "Dessinez une note rapide.", copy: "Ajoutez des marques libres pour une emphase rapide ou une direction visuelle simple.", image: "Screenshots_demo/annotation_pen.png", alt: "Barre d'annotation Pinaura avec crayon s?lectionn?" },
+        eraser: { name: "Gomme", title: "Retirez un marquage ? la fois.", copy: "Nettoyez certains traits ou annotations sans effacer toute la capture.", image: "Screenshots_demo/annotation_eraser.png", alt: "Barre d'annotation Pinaura avec gomme s?lectionn?e" },
+        text: { name: "Texte", title: "Ajoutez le contexte manquant.", copy: "Placez de courts libell?s directement sur la capture pour qu'elle reste claire plus tard.", image: "Screenshots_demo/annotation_text.png", alt: "Barre d'annotation Pinaura avec texte s?lectionn?" },
+        steps: { name: "?tapes", title: "Montrez l'ordre des actions.", copy: "Ajoutez des num?ros pour les guides, l'onboarding, la reproduction de bugs ou les instructions.", image: "Screenshots_demo/annotation_steps.png", alt: "Barre d'annotation Pinaura avec ?tapes s?lectionn?es" },
+        eyedropper: { name: "Pipette", title: "Reprenez une couleur existante.", copy: "Choisissez une couleur depuis la capture pour harmoniser les nouvelles annotations.", image: "Screenshots_demo/annotation_eyedropper.png", alt: "Barre d'annotation Pinaura avec pipette s?lectionn?e" },
+        ocr: { name: "OCR", title: "S?lectionnez le texte de l'image.", copy: "Lancez l'OCR sur la capture pour copier, rechercher et r?utiliser le texte.", image: "Screenshots_demo/annotation_OCR.png", alt: "Barre d'annotation Pinaura avec OCR s?lectionn?" },
+        lock: { name: "Verrouiller", title: "Gardez la barre stable.", copy: "Verrouillez la barre d'annotation pour la garder visible pendant le marquage.", image: "Screenshots_demo/annotation_locked.png", alt: "Barre d'annotation Pinaura avec verrou s?lectionn?" },
+        clear: { name: "Effacer", title: "Recommencez vite le marquage.", copy: "Effacez les annotations pour repartir proprement sans recapturer l'?cran.", image: "Screenshots_demo/annotation_clear.png", alt: "Barre d'annotation Pinaura avec effacer s?lectionn?" },
+        highlight: { name: "Surlignage", title: "Faites ressortir le texte.", copy: "Surlignez lignes, valeurs, libell?s ou tableaux importants sans masquer le contenu original.", image: "Screenshots_demo/annotation_highlight.png", alt: "Barre d'annotation Pinaura avec surlignage s?lectionn?" },
+        rectangle: { name: "Rectangle", title: "Encadrez la zone importante.", copy: "Dessinez des cadres autour des boutons, champs, totaux, erreurs ou zones ? examiner.", image: "Screenshots_demo/annotation_rectangle.png", alt: "Barre d'annotation Pinaura avec rectangle s?lectionn?" },
+        ellipse: { name: "Ellipse", title: "Entourez le point important.", copy: "Utilisez une forme ronde pour mettre en valeur noms, valeurs, ic?nes ou petits d?tails.", image: "Screenshots_demo/annotation_ellipse.png", alt: "Barre d'annotation Pinaura avec ellipse s?lectionn?e" },
+        callout: { name: "Bulle", title: "Reliez une note ? une cible.", copy: "Utilisez les bulles pour les retours, notes QA, explications support et commentaires de revue.", image: "Screenshots_demo/annotation_callout.png", alt: "Barre d'annotation Pinaura avec bulle s?lectionn?e" },
+        pixellate: { name: "Pixelliser", title: "Masquez les d?tails sensibles.", copy: "Pixellisez les valeurs priv?es avant de sauvegarder ou partager la capture.", image: "Screenshots_demo/annotation_pixellate.png", alt: "Barre d'annotation Pinaura avec pixellisation s?lectionn?e" },
+        crop: { name: "Recadrer", title: "Gardez seulement l'essentiel.", copy: "Retirez les zones inutiles pour une capture finale plus lisible et plus cibl?e.", image: "Screenshots_demo/annotation_crop.png", alt: "Barre d'annotation Pinaura avec recadrage s?lectionn?" },
+        stitch: { name: "Assembler", title: "?tendez le contexte visuel.", copy: "Ajoutez de l'espace de capture connect? quand une seule capture ne montre pas assez de contexte.", image: "Screenshots_demo/annotation_stitch.png", alt: "Barre d'annotation Pinaura avec assemblage s?lectionn?" },
+        retake: { name: "Reprendre", title: "?largissez la capture au besoin.", copy: "Reprenez autour de la capture actuelle si le premier cadrage a manqu? du contexte.", image: "Screenshots_demo/annotation_retake.png", alt: "Barre d'annotation Pinaura avec reprise s?lectionn?e" }
+      }
+    };
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+
+    window.addEventListener("pageshow", () => {
+      window.scrollTo(0, 0);
+    });
+
+    let currentLang = "en";
+    let currentTool = "capture";
+    let currentAnnotation = "lock";
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-i18n]").forEach((node) => {
+        const key = node.getAttribute("data-i18n");
+        if (copy[lang][key]) node.textContent = copy[lang][key];
+      });
+      document.querySelectorAll(".lang button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.lang === lang);
+      });
+      syncToolExplorer();
+      syncAnnotationExplorer();
+    }
+
+    document.querySelectorAll(".lang button").forEach((button) => {
+      button.addEventListener("click", () => setLang(button.dataset.lang));
+    });
+
+    function syncToolExplorer() {
+      const tools = toolDetails[currentLang];
+      const current = tools[currentTool];
+      document.querySelectorAll(".tool-list button").forEach((button) => {
+        const detail = tools[button.dataset.tool];
+        button.querySelector("strong").textContent = detail.name;
+        button.querySelector("span").textContent = detail.hint;
+        const isActive = button.dataset.tool === currentTool;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", String(isActive));
+      });
+      document.getElementById("tool-kicker").textContent = current.name;
+      document.getElementById("tool-title").textContent = current.title;
+      document.getElementById("tool-copy").textContent = current.copy;
+      const image = document.getElementById("tool-image");
+      image.src = current.image;
+      image.alt = current.alt;
+    }
+
+    document.querySelectorAll(".tool-list button").forEach((button) => {
+      button.addEventListener("click", () => {
+        currentTool = button.dataset.tool;
+        syncToolExplorer();
+      });
+    });
+
+    function syncAnnotationExplorer() {
+      const details = annotationDetails[currentLang];
+      const current = details[currentAnnotation];
+      document.querySelectorAll(".annotation-hotspot").forEach((button) => {
+        const detail = details[button.dataset.annotation];
+        button.querySelector("span").textContent = detail.name;
+        button.setAttribute("aria-label", detail.name);
+        button.title = detail.name;
+        const isActive = button.dataset.annotation === currentAnnotation;
+        button.classList.toggle("active", isActive);
+        button.setAttribute("aria-selected", String(isActive));
+      });
+      const image = document.getElementById("annotation-image");
+      image.src = current.image;
+      image.alt = current.alt;
+      document.getElementById("annotation-title").textContent = current.title;
+      document.getElementById("annotation-copy").textContent = current.copy;
+    }
+
+    document.querySelectorAll(".annotation-hotspot").forEach((button) => {
+      const showAnnotation = () => {
+        currentAnnotation = button.dataset.annotation;
+        syncAnnotationExplorer();
+      };
+      button.addEventListener("click", showAnnotation);
+      button.addEventListener("mouseenter", showAnnotation);
+      button.addEventListener("focus", showAnnotation);
+    });
+
+    function getPreferredLang() {
+      const languages = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "en"];
+      return languages.some((lang) => lang.toLowerCase().startsWith("fr")) ? "fr" : "en";
+    }
+
+    setLang(getPreferredLang());
+  </script>
+</body>
+</html>
