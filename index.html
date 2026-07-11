@@ -223,134 +223,512 @@
       overflow: hidden;
     }
 
-    .hero-lockup {
-      padding: 0;
-      border-bottom: 1px solid var(--dark-border);
+    .hero-demo {
+      position: relative;
+      min-height: 560px;
+      background:
+        radial-gradient(circle at 76% 12%, rgba(76, 141, 255, .26), transparent 19rem),
+        linear-gradient(135deg, #101418 0%, #171D23 56%, #101418 100%);
     }
 
-    .hero-lockup img {
-      width: 100%;
+    .hero-demo:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .20;
+      background-image:
+        linear-gradient(rgba(238, 244, 250, .05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(238, 244, 250, .05) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at 52% 48%, black, transparent 76%);
+      pointer-events: none;
     }
 
-    .mock-app {
-      display: grid;
-      grid-template-columns: 160px 1fr;
-      gap: 14px;
-      padding: 16px;
+
+    .hero-demo-stage {
+      position: absolute;
+      inset: 22px 18px 18px;
     }
 
-    .mock-sidebar,
-    .mock-main,
-    .mock-inspector {
+    .hero-window {
+      position: absolute;
       border: 1px solid var(--dark-border);
       border-radius: 14px;
-      background: var(--dark-surface);
-    }
-
-    .mock-sidebar {
-      padding: 12px;
-      display: grid;
-      gap: 8px;
-      align-content: start;
-    }
-
-    .mock-sidebar span {
-      padding: 9px 10px;
-      border-radius: 9px;
-      color: var(--dark-muted);
-      font-size: 13px;
-    }
-
-    .mock-sidebar .active {
-      background: #172B4A;
-      color: #DDEBFF;
-    }
-
-    .mock-main {
-      min-height: 320px;
-      padding: 14px;
-    }
-
-    .mock-toolbar {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-
-    .mock-toolbar span {
-      min-height: 30px;
-      display: inline-flex;
-      align-items: center;
-      border: 1px solid var(--dark-border);
-      border-radius: 8px;
-      background: var(--dark-elevated);
-      color: #C9D3DF;
-      padding: 0 10px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .mock-toolbar .active {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: white;
-    }
-
-    .pinned-shot {
-      min-height: 220px;
-      border: 1px solid #455363;
-      border-radius: 12px;
-      background:
-        linear-gradient(90deg, rgba(76, 141, 255, .10), transparent 58%),
-        linear-gradient(180deg, #EEF4FA 0 54px, #FFFFFF 54px 100%);
-      position: relative;
+      background: #F7FAFE;
+      color: #16202C;
+      box-shadow: 0 24px 72px rgba(0, 0, 0, .34);
       overflow: hidden;
     }
 
-    .pinned-shot:before {
-      content: "";
-      position: absolute;
-      left: 28px;
-      top: 78px;
-      width: 62%;
-      height: 12px;
-      border-radius: 999px;
-      background: #CAD6E4;
-      box-shadow: 0 30px 0 #D8E1EC, 0 60px 0 #E4EAF2;
-    }
-
-    .pin-badge {
-      position: absolute;
-      right: 22px;
-      top: 22px;
+    .hero-windowbar {
+      height: 32px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      background: #101418;
-      color: #EEF4FA;
-      padding: 8px 11px;
-      font-size: 12px;
+      gap: 9px;
+      padding: 0 11px;
+      border-bottom: 1px solid #D7DEE8;
+      background: #E8EEF6;
+      color: #253444;
+      font-size: 11px;
       font-weight: 760;
-      box-shadow: 0 10px 30px rgba(16, 20, 24, .22);
     }
 
-    .pin-badge img {
-      width: 18px;
-      height: 18px;
+    .hero-dots { display: flex; gap: 5px; }
+    .hero-dots i { width: 7px; height: 7px; border-radius: 50%; background: #91A0B2; }
+
+    .hero-contract {
+      left: 2%;
+      top: 3%;
+      width: 63%;
+      animation: heroContract 8.8s ease-in-out infinite;
     }
 
-    .callout {
+    .hero-contract-body { padding: 13px; }
+
+    .hero-bank-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .hero-bank {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-weight: 820;
+      font-size: 14px;
+    }
+
+    .hero-bank-mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: #1F6FD1;
+      color: #fff;
+      font-weight: 850;
+    }
+
+    .hero-contract-id {
+      color: #617184;
+      font-size: 10px;
+      line-height: 1.35;
+      text-align: right;
+    }
+
+    .hero-parties {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .hero-party,
+    .hero-term,
+    .hero-assumption {
+      border: 1px solid #D7DEE8;
+      border-radius: 8px;
+      background: #fff;
+      padding: 9px;
+    }
+
+    .hero-label {
+      color: #617184;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .hero-party strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 12px;
+    }
+
+    .hero-keyterms {
+      border: 1px solid #9FC8F7;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #F4F9FF, #EAF3FF);
+      padding: 11px;
+    }
+
+    .hero-keyterms-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      margin-bottom: 9px;
+    }
+
+    .hero-keyterms-head strong { font-size: 16px; }
+    .hero-keyterms-head span { color: #1F6FD1; font-size: 10px; font-weight: 800; }
+
+    .hero-terms-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+    }
+
+    .hero-term {
+      min-height: 58px;
+      border-color: #C6DCF8;
+    }
+
+    .hero-term strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 16px;
+      line-height: 1.05;
+    }
+
+    .hero-term .small { font-size: 12px; }
+
+    .hero-capture-launcher {
       position: absolute;
-      right: 36px;
-      bottom: 34px;
-      width: 132px;
-      height: 76px;
-      border: 2px solid var(--primary-2);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, .88);
+      z-index: 8;
+      right: 5%;
+      top: 5%;
+      width: 138px;
+      padding: 7px;
+      border: 1px solid rgba(76, 141, 255, .42);
+      border-radius: 13px;
+      background: rgba(16, 20, 24, .92);
+      box-shadow: 0 16px 42px rgba(0, 0, 0, .42);
+      opacity: 0;
+      animation: heroLauncher 8.8s ease-in-out infinite;
     }
+
+    .hero-capture-launcher img {
+      width: 100%;
+      border-radius: 9px;
+    }
+
+    .hero-shortcut-cue {
+      position: absolute;
+      right: 5%;
+      top: 36%;
+      z-index: 8;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 26px;
+      border: 1px solid rgba(76, 141, 255, .38);
+      border-radius: 999px;
+      background: rgba(16, 20, 24, .9);
+      color: #DDEBFF;
+      padding: 0 9px;
+      font: 760 10px/1 var(--mono);
+      opacity: 0;
+      animation: heroLauncher 8.8s ease-in-out infinite;
+    }
+
+    .hero-shortcut-cue kbd {
+      border: 1px solid #455363;
+      border-radius: 5px;
+      background: #202832;
+      color: #EEF4FA;
+      padding: 3px 5px;
+      font: inherit;
+    }
+
+    .hero-selection {
+      position: absolute;
+      z-index: 9;
+      left: 6%;
+      top: 37%;
+      width: 56%;
+      height: 42%;
+      transform-origin: 0 0;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      box-shadow: 0 0 0 999px rgba(16, 20, 24, .34), 0 0 30px rgba(76, 141, 255, .3);
+      opacity: 0;
+      animation: heroSelection 8.8s ease-in-out infinite;
+    }
+
+    .hero-selection span {
+      position: absolute;
+      left: 10px;
+      top: -28px;
+      min-height: 24px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #fff;
+      padding: 0 9px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .hero-pinned-contract {
+      position: absolute;
+      z-index: 11;
+      left: 2.4%;
+      top: 6%;
+      width: 45%;
+      opacity: 0;
+      transform: translate(46px, 30px) scale(.82);
+      animation: heroPinned 8.8s ease-in-out infinite;
+      filter: drop-shadow(0 22px 56px rgba(0, 0, 0, .42));
+    }
+
+    .hero-pinned-contract img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .hero-sheet {
+      right: 1%;
+      top: 8%;
+      width: 59%;
+      background: #fff;
+      opacity: 0;
+      transform: translateX(80px);
+      animation: heroSheet 8.8s ease-in-out infinite;
+    }
+
+    .hero-sheet .hero-windowbar {
+      background: #217346;
+      color: #fff;
+      border-color: #217346;
+    }
+
+    .hero-formula {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      border-bottom: 1px solid #D7DEE8;
+      background: #F4F7FB;
+      color: #617184;
+      font-size: 10px;
+    }
+
+    .hero-formula span { padding: 7px 9px; }
+    .hero-formula span + span { border-left: 1px solid #D7DEE8; color: #16202C; background: #fff; }
+
+    .hero-sheet-body { padding: 12px; }
+
+    .hero-assumptions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .hero-assumption {
+      min-height: 54px;
+      border-color: #BCD5F5;
+      background: #FFF5CC;
+    }
+
+    .hero-assumption strong,
+    .hero-fill {
+      display: block;
+      margin-top: 5px;
+      color: #1F6FD1;
+      font-size: 13px;
+      font-weight: 850;
+      opacity: 0;
+      transform: translateY(5px);
+    }
+
+
+    .hero-assumption:nth-child(1) strong, .hero-cell-fill-1 { animation: heroFill1 8.8s ease-in-out infinite; }
+    .hero-assumption:nth-child(2) strong, .hero-cell-fill-2 { animation: heroFill2 8.8s ease-in-out infinite; }
+    .hero-assumption:nth-child(3) strong { animation: heroFill3 8.8s ease-in-out infinite; }
+    .hero-assumption:nth-child(4) strong, .hero-cell-fill-3 { animation: heroFill4 8.8s ease-in-out infinite; }
+
+    .hero-sheet table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 9px;
+    }
+
+    .hero-sheet th,
+    .hero-sheet td {
+      border: 1px solid #D7DEE8;
+      padding: 6px 5px;
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .hero-sheet th {
+      background: #E8EEF6;
+      color: #26384B;
+      font-size: 9px;
+      font-weight: 800;
+    }
+
+    .hero-sheet th:first-child,
+    .hero-sheet td:first-child { text-align: left; }
+
+    .hero-input-cell {
+      position: relative;
+      background: #FFF5CC;
+      font-weight: 760;
+      overflow: hidden;
+    }
+
+    .hero-soft-row { filter: blur(.7px); opacity: .52; }
+
+    .hero-selected-cell {
+      position: relative;
+      outline: 2px solid #217346;
+      outline-offset: -2px;
+      background: #F7FFF9;
+      animation: heroSelected 8.8s ease-in-out infinite;
+    }
+
+    .hero-selected-cell:after {
+      content: "";
+      position: absolute;
+      right: -4px;
+      bottom: -4px;
+      width: 8px;
+      height: 8px;
+      background: #217346;
+    }
+
+    .hero-cell-fill-1,
+    .hero-cell-fill-2,
+    .hero-cell-fill-3 {
+      display: block;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      opacity: 0;
+      color: inherit;
+      font-weight: inherit;
+      transform: translateY(4px);
+    }
+
+    .hero-placeholder {
+      display: block;
+      color: #9AA8B8;
+      animation: heroPlaceholder 8.8s ease-in-out infinite;
+    }
+
+    .hero-cursor {
+      position: absolute;
+      z-index: 30;
+      left: 81%;
+      top: 16%;
+      width: 44px;
+      height: 44px;
+      transform: scale(.9);
+      transform-origin: 0 0;
+      animation: heroCursor 8.8s ease-in-out infinite;
+    }
+
+    .hero-cursor:before {
+      content: "";
+      position: absolute;
+      left: -17px;
+      top: -16px;
+      width: 62px;
+      height: 62px;
+      border: 2px solid rgba(76, 141, 255, .72);
+      border-radius: 50%;
+      opacity: 0;
+      box-shadow: 0 0 24px rgba(76, 141, 255, .34);
+      animation: heroCursorHalo 8.8s ease-in-out infinite;
+    }
+
+    .hero-cursor:after {
+      content: "";
+      position: absolute;
+      left: 11px;
+      top: 7px;
+      width: 0;
+      height: 0;
+      border-left: 15px solid #fff;
+      border-top: 22px solid transparent;
+      filter: drop-shadow(0 3px 5px rgba(0, 0, 0, .45));
+      transform: rotate(-16deg);
+    }
+
+    @keyframes heroLauncher {
+      0%, 6%, 35%, 100% { opacity: 0; transform: translateY(8px) scale(.96); }
+      9%, 29% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes heroSelection {
+      0%, 14%, 36%, 100% { opacity: 0; transform: scale(.08, .08); }
+      18% { opacity: 1; transform: scale(.08, .08); }
+      31%, 34% { opacity: 1; transform: scale(1, 1); }
+    }
+
+    @keyframes heroContract {
+      0%, 48% { opacity: 1; transform: translateX(0) scale(1); }
+      61%, 100% { opacity: .22; transform: translateX(-90px) scale(.98); }
+    }
+
+    @keyframes heroPinned {
+      0%, 34% { opacity: 0; transform: translate(46px, 30px) scale(.82); }
+      44%, 100% { opacity: 1; transform: translate(0, 0) scale(1); }
+    }
+
+    @keyframes heroSheet {
+      0%, 50% { opacity: 0; transform: translateX(80px); }
+      61%, 100% { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes heroFill1 {
+      0%, 63% { opacity: 0; transform: translateY(5px); }
+      68%, 100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroFill2 {
+      0%, 68% { opacity: 0; transform: translateY(5px); }
+      73%, 100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroFill3 {
+      0%, 73% { opacity: 0; transform: translateY(5px); }
+      78%, 100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroFill4 {
+      0%, 78% { opacity: 0; transform: translateY(5px); }
+      83%, 100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heroPlaceholder {
+      0%, 62% { opacity: 1; }
+      68%, 100% { opacity: 0; }
+    }
+
+    @keyframes heroSelected {
+      0%, 82% { outline-color: transparent; }
+      88%, 100% { outline-color: #217346; }
+    }
+
+    @keyframes heroCursor {
+      0%, 8% { left: 81%; top: 16%; transform: scale(.9); }
+      14% { left: 78%; top: 16%; transform: scale(.86); }
+      18% { left: 11%; top: 43%; transform: scale(.9); }
+      31% { left: 62%; top: 79%; transform: scale(.9); }
+      41% { left: 37%; top: 19%; transform: scale(.9); }
+      56% { left: 76%; top: 30%; transform: scale(.9); }
+      68% { left: 63%; top: 30%; transform: scale(.9); }
+      74% { left: 77%; top: 30%; transform: scale(.9); }
+      82% { left: 91%; top: 30%; transform: scale(.9); }
+      92%, 100% { left: 89%; top: 66%; transform: scale(.9); }
+    }
+
+    @keyframes heroCursorHalo {
+      0%, 12%, 18%, 30%, 40%, 64%, 70%, 76%, 84%, 100% { opacity: 0; transform: scale(.74); }
+      14%, 34%, 42%, 68%, 74%, 82%, 91% { opacity: 1; transform: scale(1); }
+    }
+
 
     .feature-band {
       background: var(--surface);
@@ -1136,13 +1514,6 @@
         grid-template-columns: 1fr;
       }
 
-      .mock-app {
-        grid-template-columns: 1fr;
-      }
-
-      .mock-sidebar {
-        display: none;
-      }
     }
 
     @media (max-width: 680px) {
@@ -1150,10 +1521,163 @@
       .nav-links { display: none; }
       .hero { padding-top: 34px; }
       .hero-card { border-radius: 16px; }
-      .hero-lockup { padding: 18px 18px 8px; }
+      .hero-demo { min-height: 500px; }
       .section { padding: 56px 0; }
       .video-frame { min-height: 230px; }
       .nav-right { gap: 10px; }
+    }
+
+    .hero-product-visual {
+      position: relative;
+      min-height: 410px;
+      display: grid;
+      place-items: center;
+      padding: 30px;
+      background: #101418;
+      overflow: hidden;
+    }
+
+    .hero-desktop-scene {
+      position: relative;
+      width: 100%;
+      max-width: 590px;
+      padding: 56px 16px 18px;
+    }
+
+    .hero-desktop-label {
+      position: absolute;
+      top: 4px;
+      left: 18px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 36px;
+      padding: 0 13px;
+      border: 1px solid #35414d;
+      border-radius: 7px;
+      background: #171d23;
+      color: #dfe7ef;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .28);
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    .hero-desktop-label:before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #4c8dff;
+      box-shadow: 0 0 0 4px rgba(76, 141, 255, .16);
+    }
+
+    .hero-pinned-demo {
+      position: relative;
+      width: 100%;
+      transform: rotate(-.35deg);
+      transform-origin: center;
+      filter: drop-shadow(0 26px 48px rgba(0, 0, 0, .42));
+    }
+
+    .hero-image-crop {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 572 / 334;
+      overflow: hidden;
+      border-radius: 5px;
+      background: #101418;
+    }
+
+    .hero-image-crop img {
+      position: absolute;
+      left: -2.45%;
+      top: -3.59%;
+      display: block;
+      width: 107.34%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .hero-pin {
+      position: absolute;
+      top: -13px;
+      right: 26px;
+      z-index: 4;
+      width: 27px;
+      height: 27px;
+      border: 4px solid #a9c9ff;
+      border-radius: 50%;
+      background: #4c8dff;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, .42), inset 0 2px 3px rgba(255, 255, 255, .32);
+    }
+
+    .hero-pin:after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 20px;
+      width: 3px;
+      height: 20px;
+      border-radius: 2px;
+      background: #cbd5df;
+      box-shadow: 0 5px 7px rgba(0, 0, 0, .42);
+      transform: translateX(-50%) rotate(12deg);
+      transform-origin: top center;
+    }
+
+    .workflow-demo {
+      padding: 22px 0 84px;
+    }
+
+    .workflow-demo-copy {
+      max-width: 760px;
+      margin-bottom: 24px;
+    }
+
+    .workflow-demo-copy h2 {
+      margin: 14px 0 0;
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .workflow-demo-copy p {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .workflow-video-shell {
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #101418;
+      box-shadow: var(--shadow);
+    }
+
+    .workflow-video-shell video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 760px) {
+      .hero-product-visual { min-height: 270px; padding: 14px; }
+      .hero-desktop-scene { max-width: 520px; padding: 50px 2px 10px; }
+      .hero-desktop-label { left: 2px; }
+      .workflow-demo { padding: 8px 0 58px; }
+      .workflow-video-shell { border-radius: 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .workflow-video-shell video { visibility: hidden; }
+      .workflow-video-shell {
+        background: #101418 url("assets/pinaura-hero-demo-poster.jpg") center / cover no-repeat;
+      }
     }
   </style>
 </head>
@@ -1188,41 +1712,35 @@
             <span class="store-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
             <span data-i18n="storeCta">Get it from Microsoft Store</span>
           </a>
-          <a class="button" href="#media" data-i18n="watchDemo">Watch the workflow</a>
+          <a class="button" href="#workflow-demo" data-i18n="watchDemo">Watch the workflow</a>
         </div>
       </div>
 
-      <div class="hero-card" aria-label="Pinaura product preview">
-        <div class="hero-lockup">
-          <img src="assets/pinaura-website-lockup-dark.png" alt="Pinaura">
-        </div>
-        <div class="mock-app">
-          <aside class="mock-sidebar">
-            <span data-i18n="sidePinned">Pinned</span>
-            <span data-i18n="sideRecent">Recent</span>
-            <span class="active" data-i18n="sideLibrary">Library</span>
-          </aside>
-          <div class="mock-main">
-            <div class="mock-toolbar">
-              <span class="active" data-i18n="toolPin">Pin</span>
-              <span data-i18n="toolAnnotate">Annotate</span>
-              <span data-i18n="toolOcr">OCR</span>
-              <span data-i18n="toolShare">Share</span>
-            </div>
-            <div class="pinned-shot">
-              <div class="pin-badge">
-                <img src="assets/pinaura-favicon-48x48.png" alt="">
-                <span data-i18n="pinBadge">Pinned context</span>
-              </div>
-              <div class="callout"></div>
-            </div>
+      <div class="hero-card hero-product-visual" aria-label="Code screenshot pinned to the Windows desktop with Pinaura">
+        <div class="hero-desktop-scene">
+          <div class="hero-desktop-label" data-i18n="desktopLabel">Desktop</div>
+          <div class="hero-pinned-demo">
+            <div class="hero-image-crop"><img src="Screenshots_demo/demo_code.png" alt="Code reference pinned to the desktop with Pinaura annotation tools"></div>
+            <span class="hero-pin" aria-hidden="true"></span>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="feature-band" id="pin">
-      <div class="wrap section">
+    <section class="wrap workflow-demo" id="workflow-demo" aria-labelledby="workflow-demo-title">
+      <div class="workflow-demo-copy">
+        <span class="eyebrow" data-i18n="workflowKicker">Pinaura in action</span>
+        <h2 id="workflow-demo-title" data-i18n="workflowTitle">Capture the detail. Keep working.</h2>
+        <p data-i18n="workflowCopy">Capture useful context, pin it beside your work, and use it without switching back and forth between windows.</p>
+      </div>
+      <div class="workflow-video-shell">
+        <video autoplay muted loop playsinline preload="metadata" poster="assets/pinaura-hero-demo-poster.jpg" aria-label="Pinaura workflow showing loan terms captured and pinned beside a debt schedule">
+          <source src="assets/pinaura-hero-demo.mp4" type="video/mp4">
+        </video>
+      </div>
+    </section>
+
+    <section class="feature-band" id="pin"><div class="wrap section">
         <div class="section-head">
           <h2 data-i18n="pinTitle">The screenshot stays where the work is.</h2>
           <p data-i18n="pinCopy">Pinaura is built around pinned visual context: keep a capture visible while you write, compare, report, or explain. Then save it to a searchable library when the moment is done.</p>
@@ -1347,13 +1865,13 @@
 
     <section class="wrap section trust" id="privacy">
       <article class="trust-card dark">
-        <h2 data-i18n="trustTitle">Business-friendly by design.</h2>
-        <p data-i18n="trustCopy">Use Pinaura for support tickets, QA notes, client feedback, implementation guides, quick visual explanations, and reference-heavy work.</p>
+        <h2 data-i18n="trustTitle">Who Pinaura is for.</h2>
+        <p data-i18n="trustCopy">Pinaura is useful whenever information from one screen needs to stay visible while you work somewhere else.</p>
         <ul>
-          <li data-i18n="trust1">Keep screenshots visible while you act on them.</li>
-          <li data-i18n="trust2">Share annotated context without opening a heavy editor.</li>
-          <li data-i18n="trust3">Keep reference numbers, invoice IDs, error codes, and measurements visible while you work.</li>
-          <li data-i18n="trust4">Control retention so captures do not grow forever unless you want them to.</li>
+          <li data-i18n="trust1">Students and researchers: keep slides, formulas, sources, and assignment details beside your notes.</li>
+          <li data-i18n="trust2">Professionals: keep requirements, figures, dashboards, and reference numbers visible while completing work.</li>
+          <li data-i18n="trust3">Support and QA teams: capture, annotate, and record issues so teammates can understand them quickly.</li>
+          <li data-i18n="trust4">Educators and creators: explain workflows clearly with pinned visuals, annotations, and recordings.</li>
         </ul>
       </article>
       <article class="trust-card">
@@ -1369,8 +1887,8 @@
     <section class="wrap final-cta" id="pricing">
       <div class="final-head">
         <img src="assets/pinaura-favicon-192x192.png" alt="">
-        <h2 data-i18n="finalTitle">Stop losing the screenshot that explains the work.</h2>
-        <p data-i18n="finalCopy">Choose the path that fits you. Either way, buy once and keep it forever.</p>
+        <h2 data-i18n="finalTitle">Stop switching tabs. Make the switch.</h2>
+        <p data-i18n="finalCopy">Buy once. Keep forever.</p>
       </div>
       <div class="audience-grid" aria-label="Choose how to get Pinaura">
         <article class="audience-card dark">
@@ -1411,7 +1929,7 @@
         eyebrow: "Local-only Windows capture workflow",
         heroTitle: "Pin important screenshots. Keep context visible.",
         heroCopy: "Pinaura helps you capture, annotate, and pin visual context to your screen for quick reference, so you do not have to keep switching windows. Recording makes it quick to explain work and help teammates.",
-        storeCta: "Get it from Microsoft Store", watchDemo: "Watch the workflow",
+        storeCta: "Get it from Microsoft Store", desktopLabel: "Desktop", watchDemo: "Watch the workflow", workflowKicker: "Pinaura in action", workflowTitle: "Capture the detail. Keep working.", workflowCopy: "Capture useful context, pin it beside your work, and use it without switching back and forth between windows.",
         sidePinned: "Pinned", sideRecent: "Recent", sideLibrary: "Library",
         toolPin: "Pin", toolAnnotate: "Annotate", toolOcr: "OCR", toolShare: "Share", pinBadge: "Pinned context",
         pinTitle: "The screenshot stays where the work is.",
@@ -1428,15 +1946,15 @@
         mediaCopy: "Explore the core workflow: capture, pinning, video recording, annotation, OCR selection, library search, and settings you can tune to your work.",
         videoTitle: "Capture and record the explanation", videoCopy: "Show the moment with screen, region, or window recording, optional microphone audio, camera bubble, cursor emphasis, and annotations in the final video.",
         shotsTitle: "Screenshot gallery", shotsCopy: "Use the gallery to inspect the capture launcher, annotations, OCR, library search, and storage settings before installing.",
-        trustTitle: "Business-friendly by design.", trustCopy: "Use Pinaura for support tickets, QA notes, client feedback, implementation guides, quick visual explanations, and reference-heavy work.",
-        trust1: "Keep screenshots visible while you act on them.", trust2: "Share annotated context without opening a heavy editor.", trust3: "Keep reference numbers, invoice IDs, error codes, and measurements visible while you work.", trust4: "Control retention so captures do not grow forever unless you want them to.",
+        trustTitle: "Who Pinaura is for.", trustCopy: "Pinaura is useful whenever information from one screen needs to stay visible while you work somewhere else.",
+        trust1: "Students and researchers: keep slides, formulas, sources, and assignment details beside your notes.", trust2: "Professionals: keep requirements, figures, dashboards, and reference numbers visible while completing work.", trust3: "Support and QA teams: capture, annotate, and record issues so teammates can understand them quickly.", trust4: "Educators and creators: explain workflows clearly with pinned visuals, annotations, and recordings.",
         privacyTitle: "Local-only privacy.", privacyCopy1: "Screenshots, recordings, OCR text, thumbnails, and metadata stay on your computer so the library can search and display captures.",
         privacyCopy2: "Content leaves your computer only when you choose to copy, export, open, or share it with another app or service.",
         privacyLink: "Privacy policy", supportLink: "Support",
         customTitle: "Customize the capture workflow.", customCopy: "Tune shortcuts, capture behavior, toolbar preferences, language, appearance, and storage so Pinaura fits the way you work.", recordingKicker: "Record", recordingTitle: "Record with context", recordingCopy: "Capture a region, a window, or a screen while showing the recording HUD, cursor focus, optional camera bubble, and the annotation tools below the work.", annotationKicker: "Annotate", annotationExplorerTitle: "Explore the tools that sit right below your pinned screenshot:",
         annotationStyleTitle: "Adjust color and size quickly.", annotationStyleCopy: "Change annotation color, stroke size, text size, and tool style directly from the toolbar while you work.",
-        finalTitle: "Stop losing the screenshot that explains the work.",
-        finalCopy: "Choose the path that fits you. Either way, buy once and keep it forever.",
+        finalTitle: "Stop switching tabs. Make the switch.",
+        finalCopy: "Buy once. Keep forever.",
         individualTitle: "For individuals", individualCopy: "Install Pinaura from Microsoft Store for a simple, Store-managed setup on your Windows PC.",
         enterpriseTitle: "For enterprise and teams", enterpriseCopy: "Need deployment details, procurement help, privacy review, or team rollout support? Contact us and we will help you evaluate Pinaura.", enterpriseCta: "Contact us",
       },
@@ -1445,7 +1963,7 @@
         eyebrow: "Flux de capture local pour Windows",
         heroTitle: "?pinglez les captures importantes. Gardez le contexte visible.",
         heroCopy: "Pinaura vous aide ? capturer, annoter et ?pingler le contexte visuel ? l'?cran pour le garder sous les yeux, sans changer de fen?tre sans arr?t. L'enregistrement facilite les explications et l'aide aux co?quipiers.",
-        storeCta: "Obtenir dans le Microsoft Store", watchDemo: "Voir le flux de travail",
+        storeCta: "Obtenir dans le Microsoft Store", desktopLabel: "Bureau", watchDemo: "Voir le flux de travail", workflowKicker: "Pinaura en action", workflowTitle: "Capturez le détail. Continuez votre travail.", workflowCopy: "Capturez un contexte utile, épinglez-le près de votre travail et utilisez-le sans passer constamment d'une fenêtre à l'autre.",
         sidePinned: "?pingl?es", sideRecent: "R?centes", sideLibrary: "Biblioth?que",
         toolPin: "?pingler", toolAnnotate: "Annoter", toolOcr: "OCR", toolShare: "Partager", pinBadge: "Contexte ?pingl?",
         pinTitle: "La capture reste l? o? le travail se fait.",
@@ -1462,15 +1980,15 @@
         mediaCopy: "Explorez le flux principal : capture, ?pinglage, vid?o, annotation, s?lection OCR, recherche dans la biblioth?que et r?glages adapt?s ? votre travail.",
         videoTitle: "Capturer et enregistrer l'explication", videoCopy: "Montrez le moment avec enregistrement d'?cran, r?gion ou fen?tre, audio micro optionnel, bulle cam?ra, curseur mis en ?vidence et annotations dans la vid?o finale.",
         shotsTitle: "Galerie de captures", shotsCopy: "Utilisez la galerie pour inspecter le lanceur, les annotations, l'OCR, la recherche et les r?glages de stockage avant l'installation.",
-        trustTitle: "Con?u pour les ?quipes.", trustCopy: "Utilisez Pinaura pour les tickets de support, notes QA, retours clients, guides d'impl?mentation, explications visuelles rapides et travaux riches en r?f?rences.",
-        trust1: "Gardez les captures visibles pendant que vous agissez.", trust2: "Partagez un contexte annot? sans ouvrir un ?diteur lourd.", trust3: "Gardez les num?ros de r?f?rence, factures, codes d'erreur et mesures visibles pendant le travail.", trust4: "Contr?lez la conservation pour ?viter que les captures s'accumulent sans limite.",
+        trustTitle: "À qui s'adresse Pinaura ?", trustCopy: "Pinaura est utile lorsqu'une information affichée dans une fenêtre doit rester visible pendant que vous travaillez ailleurs.",
+        trust1: "Étudiants et chercheurs : gardez diapositives, formules, sources et consignes près de vos notes.", trust2: "Professionnels : gardez exigences, chiffres, tableaux de bord et numéros de référence visibles pendant votre travail.", trust3: "Équipes de support et de QA : capturez, annotez et enregistrez les problèmes pour les expliquer rapidement.", trust4: "Enseignants et créateurs : expliquez clairement les processus avec des visuels épinglés, des annotations et des enregistrements.",
         privacyTitle: "Confidentialit? locale.", privacyCopy1: "Les captures, enregistrements, texte OCR, miniatures et m?tadonn?es restent sur votre ordinateur pour que la biblioth?que puisse les afficher et les rechercher.",
         privacyCopy2: "Le contenu quitte votre ordinateur seulement lorsque vous choisissez de le copier, l'exporter, l'ouvrir ou le partager avec une autre application ou un autre service.",
         privacyLink: "Politique de confidentialit?", supportLink: "Support",
         customTitle: "Personnalisez le flux de capture.", customCopy: "Ajustez raccourcis, comportement de capture, barre d'outils, langue, apparence et stockage pour adapter Pinaura ? votre fa?on de travailler.", recordingKicker: "Enregistrer", recordingTitle: "Enregistrez avec le contexte", recordingCopy: "Capturez une r?gion, une fen?tre ou un ?cran avec l'indicateur d'enregistrement, le curseur mis en ?vidence, la bulle cam?ra optionnelle et les outils d'annotation sous le travail.", annotationKicker: "Annoter", annotationExplorerTitle: "Explorez les outils plac?s juste sous votre capture ?pingl?e :",
         annotationStyleTitle: "Ajustez vite la couleur et la taille.", annotationStyleCopy: "Changez la couleur, l'?paisseur du trait, la taille du texte et le style des outils directement depuis la barre pendant que vous travaillez.",
-        finalTitle: "Ne perdez plus la capture qui explique le travail.",
-        finalCopy: "Choisissez le chemin qui vous convient. Dans tous les cas, achetez une fois et gardez-le pour toujours.",
+        finalTitle: "Ne changez plus d'onglet. Passez à Pinaura.",
+        finalCopy: "Achetez une fois. Gardez Pinaura pour toujours.",
         individualTitle: "Pour les particuliers", individualCopy: "Installez Pinaura depuis Microsoft Store pour une installation simple et g?r?e par le Store sur votre PC Windows.",
         enterpriseTitle: "Pour les entreprises et les ?quipes", enterpriseCopy: "Besoin d'informations de d?ploiement, d'aide pour l'achat, d'une revue de confidentialit? ou d'un accompagnement d'?quipe ? Contactez-nous pour ?valuer Pinaura.", enterpriseCta: "Nous contacter",
       }
